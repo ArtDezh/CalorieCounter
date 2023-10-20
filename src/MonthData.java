@@ -6,6 +6,7 @@ public class MonthData {
     private static String nameMonth;
     private static short numberOfDay;
     private static int countSteps;
+
     public MonthData(String nameMonth, short numberOfDay, int countSteps) {
         MonthData.nameMonth = nameMonth;
         MonthData.numberOfDay = numberOfDay;
@@ -31,12 +32,15 @@ public class MonthData {
         return countSteps;
     }
 
-    public static int setCountSteps(int countSteps) {
-        while (true)
-        {
+    public static int setCountSteps() {
+        boolean flag = true;
+        int temp = 0;
+        while (flag) {
             System.out.println("Количество шагов не может быть отрицательным числом!");
-            if (countSteps >= 0) return MonthData.countSteps = countSteps;
+            temp = scanner.nextInt();
+            if (temp >= 0) flag = false;
         }
+        return MonthData.countSteps = temp;
     }
 
     public String getNameMonth() {
