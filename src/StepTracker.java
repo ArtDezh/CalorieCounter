@@ -58,7 +58,17 @@ public class StepTracker {
     }
 
     public static void setGoalCountSteps(int goalCountSteps) {
-        StepTracker.goalCountSteps = goalCountSteps;
+        Scanner scanner = new Scanner(System.in);
+        int temp = goalCountSteps;
+        while (true) {
+            if (temp > 0) {
+                StepTracker.goalCountSteps = goalCountSteps;
+                break;
+            } else {
+                System.out.println("Нельзя ввести отрицательное количество шагов! Попробуйте снова.");
+                temp = scanner.nextInt();
+            }
+        }
         printMenu();
     }
 
