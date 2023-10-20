@@ -26,20 +26,14 @@ public class StepTracker {
         while (true) {
             int inputDigit = Integer.parseInt(scanner.nextLine());
             switch (inputDigit) {
-                case 1:
-                    addStepsForDay();
-                    break;
-                case 2:
-                    getStatisticForMonth();
-                    break;
-                case 3:
-                    goalCountSteps = scanner.nextInt();
-                    break;
-                case 4:
-                    System.exit(0);
-                    break;
-                default:
-                    System.out.println("Вы ввели не правильную команду! Попробуйте еще раз");
+                case 1 -> addStepsForDay();
+                case 2 -> getStatisticForMonth();
+                case 3 -> {
+                    System.out.println("Введите количество шагов, сколько нужно пройти сегодня");
+                    setGoalCountSteps(Integer.parseInt(scanner.nextLine()));
+                }
+                case 4 -> System.exit(0);
+                default -> System.out.println("Вы ввели не правильную команду! Попробуйте еще раз");
             }
         }
     }
@@ -59,18 +53,24 @@ public class StepTracker {
         printMenu();
     }
 
-    public int getGoalCountSteps() {
+    public static int getGoalCountSteps() {
         return goalCountSteps;
     }
 
-    public void setGoalCountSteps(int goalCountSteps) {
+    public static void setGoalCountSteps(int goalCountSteps) {
         StepTracker.goalCountSteps = goalCountSteps;
+        printMenu();
     }
 
     public static void getStatisticForMonth() {
+        System.out.println("Введите название месяца, за который хтите получить статисику.");
         Scanner scanner = new Scanner(System.in);
         String nameMonth = scanner.nextLine();
         int sumSteps = 0;
+        int maxCountSteps = 0;
+        int maxCountDaysInRow = 0;
+        int count = 0; // для логик подсчета самой длинной серии
+
         for (Map.Entry<String, HashMap<Short, Integer>> entry : allDate.entrySet()) {
             String currentMonth = entry.getKey();
             if (currentMonth.equals(nameMonth)) {
@@ -78,11 +78,21 @@ public class StepTracker {
                     short currentDay = entry1.getKey();
                     System.out.print(currentDay + " день: " + entry1.getValue() + ", ");
                     sumSteps += entry1.getValue();
+
+                    if (maxCountSteps < entry1.getValue()) maxCountSteps = entry1.getValue();
+                    if (entry1.getValue() >= getGoalCountSteps()) {
+                        count++;
+                        if (maxCountDaysInRow < count) maxCountDaysInRow = count;
+                    } else count = 0;
                 }
             }
         }
         System.out.println("\nОбщее количество шагов за месяц: " + sumSteps);
+        System.out.println("Максимальное пройденное количество шагов в месяц: " + maxCountSteps);
         System.out.println("Среднее количество шагов: " + sumSteps / 30);
+        System.out.println("Вы прошли за " + nameMonth + ": " + Converter.getDistance(sumSteps) + " км");
+        System.out.println("Вы потеряли за " + nameMonth + ": " + Converter.calorieBurn(sumSteps) + "ккал");
+        System.out.println("Количество дней подряд с количеством шагов больше " + getGoalCountSteps() + " получилось: " + maxCountDaysInRow + "\n");
 
         printMenu();
     }
