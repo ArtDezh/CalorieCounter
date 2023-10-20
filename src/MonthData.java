@@ -1,35 +1,41 @@
-public class MonthData {
-    private String nameMonth;
-    private short numberOfDay;
-    private int countSteps;
+import java.util.Scanner;
 
+public class MonthData {
+    static Scanner scanner = new Scanner(System.in);
+
+    private static String nameMonth;
+    private static short numberOfDay;
+    private static int countSteps;
     public MonthData(String nameMonth, short numberOfDay, int countSteps) {
-        this.nameMonth = nameMonth;
-        this.numberOfDay = numberOfDay;
-        this.countSteps = countSteps;
+        MonthData.nameMonth = nameMonth;
+        MonthData.numberOfDay = numberOfDay;
+        MonthData.countSteps = countSteps;
     }
 
     public short getNumberOfDay() {
         return numberOfDay;
     }
 
-    public void setNumberOfDay(short numberOfDay) {
-        if (numberOfDay >= 1 && numberOfDay <= 30) {
-            this.numberOfDay = numberOfDay;
-        } else {
+    public static short setNumberOfDay() {
+        boolean flag = true;
+        short temp = 0;
+        while (flag) {
             System.out.println("Номер дня может быть от 1 до 30!");
+            temp = scanner.nextShort();
+            if (temp >= 1 && temp <= 30) flag = false;
         }
+        return MonthData.numberOfDay = temp;
     }
 
     public int getCountSteps() {
         return countSteps;
     }
 
-    public void setCountSteps(int countSteps) {
-        if (countSteps >= 0) {
-            this.countSteps = countSteps;
-        } else {
+    public static int setCountSteps(int countSteps) {
+        while (true)
+        {
             System.out.println("Количество шагов не может быть отрицательным числом!");
+            if (countSteps >= 0) return MonthData.countSteps = countSteps;
         }
     }
 
@@ -37,7 +43,7 @@ public class MonthData {
         return nameMonth;
     }
 
-    public void setNameMonth(String nameMonth) {
-        this.nameMonth = nameMonth;
+    public static String setNameMonth(String nameMonth) {
+        return MonthData.nameMonth = nameMonth;
     }
 }

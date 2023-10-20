@@ -41,7 +41,7 @@ public class StepTracker {
     public static void addStepsForDay() {
         System.out.println("Введите название месяца, номер дня и количество шагов");
         Scanner scanner = new Scanner(System.in);
-        MonthData monthData = new MonthData(scanner.nextLine(), Short.parseShort(scanner.nextLine()), Integer.parseInt(scanner.nextLine()));
+        MonthData monthData = new MonthData(MonthData.setNameMonth(scanner.nextLine()), Short.parseShort(String.valueOf(MonthData.setNumberOfDay())), MonthData.setCountSteps(Integer.parseInt(scanner.nextLine())));
 
         if (allDate.containsKey(monthData.getNameMonth())) {
             HashMap<Short, Integer> daysAndSteps = allDate.get(monthData.getNameMonth());
